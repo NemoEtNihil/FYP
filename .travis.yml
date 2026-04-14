@@ -1,4 +1,4 @@
 dist: focal
 language: go
-script: echo "Travis: Hello World"
+script: echo "Travis Test: Hello World"
 install: skip
