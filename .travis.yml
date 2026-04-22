@@ -1,4 +1,0 @@
-dist: focal
-language: go
-script: echo "Travis: Hello World"
-install: skip
