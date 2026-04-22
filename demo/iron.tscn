@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqn68mfulhbqi"]
+
+[ext_resource type="PackedScene" uid="uid://dcc4rne0t6kw8" path="res://assets/resources/Iron_Bar.gltf" id="1_3a10j"]
+[ext_resource type="Script" uid="uid://bcx23svepcnuw" path="res://iron.gd" id="1_4ok37"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4ok37"]
+radius = 0.6
+
+[node name="Iron" type="Node3D"]
+script = ExtResource("1_4ok37")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 0, 1, 0)
+shape = SubResource("CylinderShape3D_4ok37")
+
+[node name="Iron_Bar2" parent="." instance=ExtResource("1_3a10j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

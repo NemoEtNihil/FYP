@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://wmmc5vc7qhat"]
+
+[ext_resource type="Shader" uid="uid://veybt83i8eil" path="res://assets/Water_Shader.gdshader" id="1_re6vu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8bo6m"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2sbr4"]
+noise = SubResource("FastNoiseLite_8bo6m")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_22pjk"]
+render_priority = 0
+shader = ExtResource("1_re6vu")
+shader_parameter/height_scale = 0.5
+shader_parameter/noise = SubResource("NoiseTexture2D_2sbr4")
+shader_parameter/calmness = 50.0
+shader_parameter/num_of_additional_waves_in_x_direction = 2
+shader_parameter/num_of_additional_waves_in_z_direction = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mskt3"]
+lightmap_size_hint = Vector2i(52, 52)
+material = SubResource("ShaderMaterial_22pjk")
+size = Vector2(10, 10)
+subdivide_width = 32
+subdivide_depth = 32
+
+[node name="Node" type="Node"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.999998, -0.00196822, 0.000932857, 0.0019704, 0.999995, -0.00233514, -0.000928233, 0.00233699, 0.999997, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_mskt3")

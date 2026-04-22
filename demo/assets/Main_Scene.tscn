@@ -1,0 +1,1653 @@
+[gd_scene load_steps=24 format=3 uid="uid://d3v2i60elvo57"]
+
+[ext_resource type="Script" uid="uid://06rl66pgvq4" path="res://assets/camera.gd" id="1_8oy37"]
+[ext_resource type="PackedScene" uid="uid://cxhmo5qgjks5e" path="res://assets/nature/CommonTree_1.gltf" id="2_e0x5s"]
+[ext_resource type="PackedScene" uid="uid://umc1xsifviih" path="res://assets/nature/Fern_1.gltf" id="3_02hrf"]
+[ext_resource type="PackedScene" uid="uid://b22ls8d2bm1c" path="res://assets/character/Knight.tscn" id="3_e0x5s"]
+[ext_resource type="PackedScene" uid="uid://bp3lj2vdny1go" path="res://assets/nature/Clover_2.gltf" id="4_i2kj5"]
+[ext_resource type="PackedScene" uid="uid://cmr1fn6ye2rds" path="res://assets/nature/CommonTree_2.gltf" id="5_6crsy"]
+[ext_resource type="PackedScene" uid="uid://2hkj0e554qxu" path="res://assets/nature/CommonTree_4.gltf" id="6_6qiwp"]
+[ext_resource type="PackedScene" uid="uid://0b0brk2nfq3u" path="res://assets/nature/CommonTree_5.gltf" id="7_8oy37"]
+[ext_resource type="PackedScene" uid="uid://b2kwfwhbiitfq" path="res://assets/nature/DeadTree_2.gltf" id="8_4ktg3"]
+[ext_resource type="PackedScene" uid="uid://cusu40v0umit0" path="res://assets/nature/CommonTree_3.gltf" id="9_fy34r"]
+[ext_resource type="PackedScene" uid="uid://csu47x2oy7sr3" path="res://assets/nature/Flower_3_Single.gltf" id="10_tv2xi"]
+[ext_resource type="PackedScene" uid="uid://v6w1o368g83l" path="res://assets/nature/Grass_Common_Short.gltf" id="12_6qiwp"]
+[ext_resource type="PackedScene" uid="uid://b7q2xhseswq5" path="res://skeleton.tscn" id="12_8oy37"]
+[ext_resource type="Script" uid="uid://con60p632ex3p" path="res://assets/spawner.gd" id="14_4ktg3"]
+[ext_resource type="PackedScene" uid="uid://b3so1m85rigqh" path="res://skeleton_minion.tscn" id="15_fy34r"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6qiwp"]
+
+[sub_resource type="Sky" id="Sky_8oy37"]
+sky_material = SubResource("ProceduralSkyMaterial_6qiwp")
+
+[sub_resource type="Environment" id="Environment_4ktg3"]
+background_mode = 2
+sky = SubResource("Sky_8oy37")
+ambient_light_source = 3
+ssao_enabled = true
+adjustment_enabled = true
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8oy37"]
+height = 4.3252
+
+[sub_resource type="Gradient" id="Gradient_337sv"]
+offsets = PackedFloat32Array(0, 0.996616)
+colors = PackedColorArray(0.1864, 0.41761, 0.133494, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ttxrf"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yiia1"]
+width = 1024
+height = 1024
+in_3d_space = true
+seamless = true
+seamless_blend_skirt = 0.072
+color_ramp = SubResource("Gradient_337sv")
+noise = SubResource("FastNoiseLite_ttxrf")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tulro"]
+albedo_color = Color(0.294414, 0.55998, 0.116676, 1)
+albedo_texture = SubResource("NoiseTexture2D_yiia1")
+grow_amount = -3.467
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.623197, -0.591591, -0.511513, 6.06708e-08, -0.654055, 0.756447, -0.782064, 0.471416, 0.407605, 0, 25.5416, 0)
+light_color = Color(0.999699, 1, 0.952165, 1)
+light_energy = 1.147
+light_indirect_energy = 1.391
+light_volumetric_fog_energy = 1.005
+light_specular = 1.147
+shadow_enabled = true
+shadow_bias = 0.0
+shadow_normal_bias = 1.664
+shadow_blur = 0.0
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0.0595561, 5.53949, 3.98027)
+environment = SubResource("Environment_4ktg3")
+fov = 80.2
+size = 6.31
+near = 0.001
+far = 176.76
+script = ExtResource("1_8oy37")
+player = NodePath("../CharacterBody3D")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("3_e0x5s")]
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="CommonTree_12" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.03952, 0, -2.53339)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_12"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_12/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="Fern_12" parent="Environment" instance=ExtResource("3_02hrf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.82569, 0, 3.69348)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+collision_layer = 0
+collision_mask = 0
+size = Vector3(400, 1, 400)
+material = SubResource("StandardMaterial3D_tulro")
+
+[node name="Clover_22" parent="Environment" instance=ExtResource("4_i2kj5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.19143, 0.00235123, -2.36598)
+
+[node name="CommonTree_22" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.91326, 0.242772, -3.14713)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_22"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_22/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_42" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2582, 0.242772, -6.57293)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_42"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_42/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_52" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.823079, 0.242772, -6.21573)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_52"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_52/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_22" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.8333, 0.335556, 8.52955)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_22"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_22/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_43" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.21045, 0.242773, 7.77296)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_43"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_43/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_23" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0496, 0.242772, 3.91522)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_23"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_23/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_32" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9177, 0.242773, 3.46262)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_32"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_32/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_13" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0437, 0.242772, -2.05519)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_13"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_13/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="Flower_3_Single2" parent="Environment" instance=ExtResource("10_tv2xi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0234, 0.018327, 4.00496)
+
+[node name="Grass_Common_Short2" parent="Environment" instance=ExtResource("12_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.01006, 0.0223852, 3.18473)
+
+[node name="CommonTree_14" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.0086, 0, 11.5351)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_14"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_14/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_24" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.05579, 0.242772, 10.9214)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_24"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_24/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_44" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.2273, 0.242772, 7.49558)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_44"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_44/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_53" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.7921, 0.242772, 7.85278)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_53"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_53/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_23" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86425, 0.335556, 22.5981)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_23"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_23/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_45" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7586, 0.242773, 21.8415)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_45"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_45/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_25" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08055, 0.242772, 17.9837)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_25"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_25/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_33" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.8868, 0.242773, 17.5311)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_33"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_33/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_15" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -26.3905, 0, -24.7535)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_15"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_15/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="Clover_23" parent="Environment" instance=ExtResource("4_i2kj5")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -26.6406, 0.00235122, -23.9261)
+
+[node name="CommonTree_26" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -30.1949, 0.242772, -18.9017)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_26"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_26/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_46" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -26.5705, 0.242772, -33.0237)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_46"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_46/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_54" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -30.6823, 0.242772, -24.5241)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_54"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_54/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_24" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -24.5382, 0.335556, -4.6625)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_24"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_24/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_47" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -21.1603, 0.242773, -12.6322)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_47"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_47/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_27" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -28.7145, 0.242772, -6.63665)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_27"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_27/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_34" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -18.8066, 0.242773, -26.2479)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_34"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_34/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_16" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -32.1072, 0.242772, -12.9756)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_16"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_16/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_17" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -8.35072, 0, -28.7219)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_17"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_17/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_28" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -12.1551, 0.242772, -22.87)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_28"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_28/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_48" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -8.53077, 0.242772, -36.992)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_48"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_48/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_55" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -12.6425, 0.242772, -28.4924)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_55"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_55/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_25" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -6.49843, 0.335556, -8.63082)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_25"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_25/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_49" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -3.1205, 0.242773, -16.6005)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_49"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_49/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_29" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -10.6747, 0.242772, -10.605)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_29"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_29/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_35" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(0.469225, 0, 0.883079, 0, 1, 0, -0.883079, 0, 0.469225, -0.766811, 0.242773, -30.2162)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_35"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_35/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_18" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 39.5405, 0, -23.8869)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_18"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_18/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="Clover_24" parent="Environment" instance=ExtResource("4_i2kj5")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 39.3262, 0.00235122, -24.7244)
+
+[node name="CommonTree_30" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 39.7664, 0.242772, -30.8631)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_30"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_30/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_50" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 43.9755, 0.242772, -16.9042)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_50"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_50/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_56" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 43.0938, 0.242772, -26.3048)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_56"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_56/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_26" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 27.5558, 0.335556, -40.118)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_26"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_26/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_51" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 28.7911, 0.242773, -31.5506)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_51"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_51/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_31" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 32.151, 0.242772, -40.5907)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_31"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_31/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_36" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 33.8253, 0.242773, -18.6826)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_36"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_36/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_19" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 38.335, 0.242772, -36.9232)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_19"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_19/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_20" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 26.1599, 0, -11.1535)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_20"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_20/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_37" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 26.3858, 0.242772, -18.1297)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_37"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_37/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_57" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 30.5949, 0.242772, -4.17081)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_57"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_57/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_58" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 29.7132, 0.242772, -13.5714)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_58"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_58/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_27" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 14.1752, 0.335556, -27.3846)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_27"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_27/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_59" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 15.4104, 0.242773, -18.8172)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_59"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_59/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_38" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 18.7703, 0.242772, -27.8573)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_38"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_38/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_39" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(0.0556473, 0, -0.998451, 0, 1, 0, 0.998451, 0, 0.0556473, 20.4446, 0.242773, -5.94923)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_39"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_39/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_21" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -16.5521, 0, 13.6969)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_21"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_21/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="Clover_25" parent="Environment" instance=ExtResource("4_i2kj5")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -17.2998, 0.00235122, 13.2631)
+
+[node name="CommonTree_40" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -21.3712, 0.242772, 8.64767)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_40"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_40/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_60" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -8.46266, 0.242772, 15.4254)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_60"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_60/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_61" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -15.7875, 0.242772, 9.46755)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_61"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_61/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_28" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -36.53, 0.335556, 10.8748)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_28"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_28/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_62" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -29.5519, 0.242773, 15.9965)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_62"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_62/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_41" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -33.6476, 0.242772, 7.26507)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_41"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_41/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_63" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -16.8436, 0.242773, 21.4212)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_63"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_63/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_64" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -26.6979, 0.242772, 5.42265)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_64"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_64/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_65" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -16.8429, 0, 32.1657)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_65"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_65/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_66" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -21.6619, 0.242772, 27.1165)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_66"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_66/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_67" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -8.75341, 0.242772, 33.8942)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_67"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_67/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_68" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -16.0783, 0.242772, 27.9364)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_68"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_68/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_29" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -36.8208, 0.335556, 29.3436)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_29"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_29/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_69" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -29.8427, 0.242773, 34.4653)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_69"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_69/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_70" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -33.9383, 0.242772, 25.7339)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_70"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_70/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_71" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(0.751356, 0, -0.659897, 0, 1, 0, 0.659897, 0, 0.751356, -17.1344, 0.242773, 39.89)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_71"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_71/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_72" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.4739, 0, 25.1674)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_72"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_72/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="Clover_26" parent="Environment" instance=ExtResource("4_i2kj5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.6258, 0.00235123, 25.3348)
+
+[node name="CommonTree_73" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5211, 0.242772, 24.5537)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_73"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_73/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_74" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.6925, 0.242772, 21.1279)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_74"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_74/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_75" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.2574, 0.242772, 21.4851)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_75"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_75/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_30" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.601, 0.335556, 36.2304)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_30"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_30/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_76" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.2239, 0.242773, 35.4738)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_76"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_76/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_77" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.3847, 0.242772, 31.616)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_77"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_77/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_78" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.352, 0.242773, 31.1634)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_78"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_78/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_79" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.3906, 0.242772, 25.6456)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_79"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_79/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_80" parent="Environment" instance=ExtResource("2_e0x5s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.4429, 0, 39.2359)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_80"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_80/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_81" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.4901, 0.242772, 38.6222)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_81"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_81/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_82" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.6616, 0.242772, 35.1964)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_82"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_82/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_83" parent="Environment" instance=ExtResource("7_8oy37")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.2265, 0.242772, 35.5536)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_83"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_83/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="DeadTree_31" parent="Environment" instance=ExtResource("8_4ktg3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5701, 0.335556, 50.2989)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/DeadTree_31"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DeadTree_31/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_84" parent="Environment" instance=ExtResource("6_6qiwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.1929, 0.242773, 49.5423)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_84"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_84/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_85" parent="Environment" instance=ExtResource("5_6crsy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.3538, 0.242772, 45.6845)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_85"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_85/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="CommonTree_86" parent="Environment" instance=ExtResource("9_fy34r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.3211, 0.242773, 45.2319)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Environment/CommonTree_86"]
+collision_layer = 15
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CommonTree_86/RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1626, 0)
+shape = SubResource("CylinderShape3D_8oy37")
+
+[node name="Skeleton" parent="." node_paths=PackedStringArray("player") instance=ExtResource("12_8oy37")]
+transform = Transform3D(0.647136, 0, 0.762375, 0, 1, 0, -0.762375, 0, 0.647136, -2.66718, 2.66969e-05, -0.367357)
+axis_lock_angular_x = false
+axis_lock_angular_y = true
+axis_lock_angular_z = false
+player = NodePath("../CharacterBody3D")
+
+[node name="spawner" type="Node" parent="."]
+script = ExtResource("14_4ktg3")
+minion = ExtResource("15_fy34r")
