@@ -37,6 +37,7 @@ jobs:
         run: go test ./...
 
       - name: Build
+        working-directory: demo
         run: go build ./...
 
       - name: Run golangci-lint
